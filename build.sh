@@ -1,6 +1,7 @@
 #!/bin/bash
 
-rmdir build
+rm -r build
+
 mkdir build
 
 cd build

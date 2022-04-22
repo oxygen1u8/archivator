@@ -1,2 +1,9 @@
+.vscode
+
 build
 file.txt
+
+start_archivator.sh
+compile_and_run.sh
+compile_and_debug.sh
+cfg.gdbinit

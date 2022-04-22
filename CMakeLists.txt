@@ -5,6 +5,8 @@ project(archivator
     LANGUAGES C
 )
 
+set(CMAKE_C_COMPILER gcc)
+
 add_executable(archivator
     main.c
     arch_logic.c

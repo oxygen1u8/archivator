@@ -8,9 +8,11 @@ project(archivator
 set(CMAKE_C_COMPILER gcc)
 
 add_executable(archivator
-    main.c
-    arch_logic.c
-    file_in_out.c
     information.c
     math_func.c
+    arch_logic.c
+    file_in_out.c
+    main.c
 )
+
+target_link_libraries(archivator m)

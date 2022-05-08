@@ -19,8 +19,11 @@ void reading_from_file(FILE* fp, symbol_t** syms, int** syms_count, int* elem_co
             tmp_syms = (symbol_t*) malloc(sizeof(symbol_t));
             tmp_syms_count = (int*) malloc(sizeof(int));
             tmp_syms[0].sym = bcode.sym_to_write;
+            tmp_syms[0].left = NULL;
+            tmp_syms[0].right = NULL;
             tmp_syms_count[0] = 1;
             _elem_count = 1;
+            
         }
         else
         {
@@ -38,6 +41,8 @@ void reading_from_file(FILE* fp, symbol_t** syms, int** syms_count, int* elem_co
                 tmp_syms = (symbol_t*) realloc(tmp_syms, (_elem_count + 1) * sizeof(symbol_t));
                 tmp_syms_count = (int*) realloc(tmp_syms_count, (_elem_count + 1) * sizeof(int));
                 tmp_syms[_elem_count].sym = bcode.sym_to_write;
+                tmp_syms[_elem_count].left = NULL;
+                tmp_syms[_elem_count].right = NULL;
                 tmp_syms_count[_elem_count] = 1;
                 _elem_count += 1;
             }

@@ -6,6 +6,6 @@
 #include "types.h"
 #include "math_func.h"
 
-void set_information(symbol_t* syms, int* elem_count, int* syms_count);
+void set_information(symbol_t* syms, int* elem_count);
 
 #endif

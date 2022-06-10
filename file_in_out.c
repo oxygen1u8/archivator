@@ -4,55 +4,34 @@ void reading_from_file(FILE* fp, symbol_t** syms, int** syms_count, int* elem_co
 {
     union code bcode;
     bool isExist;
-    int _elem_count = 0;
     char syms_buff[256];
+    uint32_t syms_count_buff[256];
+    memset(syms_count_buff, 0, 256 * sizeof(uint32_t));
 
-    symbol_t* tmp_syms = NULL;
-    int* tmp_syms_count = NULL;
-    
-    while(!feof(fp))
-    {
+    while(!feof(fp)) {
         isExist = false;
         fread(&bcode.sym_to_write, 1, sizeof(unsigned char), fp);
-        if(tmp_syms == NULL)
-        {
-            tmp_syms = (symbol_t*) malloc(sizeof(symbol_t));
-            tmp_syms_count = (int*) malloc(sizeof(int));
-            tmp_syms[0].sym = bcode.sym_to_write;
-            tmp_syms[0].left = NULL;
-            tmp_syms[0].right = NULL;
-            tmp_syms_count[0] = 1;
-            _elem_count = 1;
-            
+        for(uint32_t i = 0; i < *elem_count; i++) {
+            if(syms_buff[i] == bcode.sym_to_write) {
+                isExist = true;
+                syms_count_buff[i] += 1;
+                break;
+            }
         }
-        else
-        {
-            for(int i = 0; i < _elem_count; i++)
-            {
-                if(tmp_syms[i].sym == bcode.sym_to_write)
-                {
-                    isExist = true;
-                    tmp_syms_count[i] += 1;
-                    break;
-                }
-            }
-            if(!isExist)
-            {
-                tmp_syms = (symbol_t*) realloc(tmp_syms, (_elem_count + 1) * sizeof(symbol_t));
-                tmp_syms_count = (int*) realloc(tmp_syms_count, (_elem_count + 1) * sizeof(int));
-                tmp_syms[_elem_count].sym = bcode.sym_to_write;
-                tmp_syms[_elem_count].left = NULL;
-                tmp_syms[_elem_count].right = NULL;
-                tmp_syms_count[_elem_count] = 1;
-                _elem_count += 1;
-            }
+        if(!isExist) {
+            *elem_count += 1;
+            syms_buff[*elem_count - 1] = bcode.sym_to_write;
+            syms_count_buff[*elem_count - 1] += 1;
         }
     }
 
-    *syms = (symbol_t*) malloc(sizeof(tmp_syms));
-    *syms_count = (int*) malloc(sizeof(tmp_syms_count));
-    
-    *elem_count = _elem_count;
-    *syms = tmp_syms;
-    *syms_count = tmp_syms_count;
+    *syms = (symbol_t*) malloc(*elem_count * sizeof(symbol_t));
+    (void)memset(*syms, 0, *elem_count * sizeof(symbol_t));
+    *syms_count = (int*) malloc(*elem_count * sizeof(int));
+    (void)memset(*syms_count, 0, *elem_count * sizeof(int));
+
+    for(uint32_t i = 0; i < *elem_count; i++) {
+        (*syms)[i].sym = syms_buff[i];
+        (*syms_count)[i] = syms_count_buff[i];
+    }
 }

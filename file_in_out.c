@@ -10,7 +10,9 @@ void reading_from_file(FILE* fp, symbol_t** syms, int** syms_count, int* elem_co
 
     while(!feof(fp)) {
         isExist = false;
-        fread(&bcode.sym_to_write, 1, sizeof(unsigned char), fp);
+        if(fread(&bcode.sym_to_write, 1, sizeof(unsigned char), fp) != 1) {
+            break;
+        }
         for(uint32_t i = 0; i < *elem_count; i++) {
             if(syms_buff[i] == bcode.sym_to_write) {
                 isExist = true;
@@ -34,4 +36,24 @@ void reading_from_file(FILE* fp, symbol_t** syms, int** syms_count, int* elem_co
         (*syms)[i].sym = syms_buff[i];
         (*syms_count)[i] = syms_count_buff[i];
     }
+}
+
+void writing_to_file(FILE *src, FILE *temp, FILE *dst, symbol_t **syms, int *elem_count)
+{
+    union code bcode;
+
+    while(!feof(src)) {
+        if(fread(&bcode.sym_to_write, 1, sizeof(unsigned char), src) != 1) {
+            break;
+        }
+        for(uint32_t i = 0; i < *elem_count; i++) {
+            if(bcode.sym_to_write == (*syms)[i].sym) {
+                fwrite((*syms)[i].code, sizeof(char),
+                    strlen((*syms)[i].code), temp);
+                break;
+            }
+        }
+    }
+    fseek(temp, 0, SEEK_SET);
+    
 }

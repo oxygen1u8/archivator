@@ -41,19 +41,5 @@ void reading_from_file(FILE* fp, symbol_t** syms, int** syms_count, int* elem_co
 void writing_to_file(FILE *src, FILE *temp, FILE *dst, symbol_t **syms, int *elem_count)
 {
     union code bcode;
-
-    while(!feof(src)) {
-        if(fread(&bcode.sym_to_write, 1, sizeof(unsigned char), src) != 1) {
-            break;
-        }
-        for(uint32_t i = 0; i < *elem_count; i++) {
-            if(bcode.sym_to_write == (*syms)[i].sym) {
-                fwrite((*syms)[i].code, sizeof(char),
-                    strlen((*syms)[i].code), temp);
-                break;
-            }
-        }
-    }
-    fseek(temp, 0, SEEK_SET);
     
 }

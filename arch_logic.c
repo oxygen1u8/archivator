@@ -21,7 +21,7 @@ symbol_t* make_tree(symbol_t* syms, int elem_count)
     symbol_t *root = NULL;
     symbol_t *tmp = NULL;
     symbol_t *tmp_l = NULL, *tmp_r = NULL;
-    symbol_t* array = (symbol_t *)malloc(sizeof(symbol_t) * elem_count);
+    symbol_t* array = (symbol_t *) malloc(sizeof(symbol_t) * elem_count);
     memcpy(array, syms, elem_count * sizeof(symbol_t));
     sort_syms(&array, &elem_count);
     while (elem_count != 1) {
@@ -30,9 +30,9 @@ symbol_t* make_tree(symbol_t* syms, int elem_count)
 
         tmp->freq = array[elem_count - 1].freq + array[elem_count - 2].freq;
         
-        tmp_l = (symbol_t *)malloc(sizeof(symbol_t));
+        tmp_l = (symbol_t *) malloc(sizeof(symbol_t));
         memcpy(tmp_l, &array[elem_count - 1], sizeof(symbol_t));
-        tmp_r = (symbol_t *)malloc(sizeof(symbol_t));
+        tmp_r = (symbol_t *) malloc(sizeof(symbol_t));
         memcpy(tmp_r, &array[elem_count - 2], sizeof(symbol_t));
         
         tmp->left = tmp_l;

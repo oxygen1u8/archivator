@@ -5,5 +5,5 @@ file.txt
 
 start_archivator.sh
 compile_and_run.sh
-compile_and_debug.sh
+debug.sh
 cfg.gdbinit
